@@ -4,10 +4,13 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-    entry: './src/main.js',
+    entry: {
+        vendor: ["three"],
+        app: './src/main.js',
+    },
     output: {
         path: path.resolve(__dirname, 'build'),
-        filename: 'main.bundle.js'
+        filename: '[name].bundle.js'
     },
     module: {
         loaders: [
@@ -32,6 +35,10 @@ module.exports = {
         new CopyWebpackPlugin([
             { from: 'src/assets', to: 'assets' }
         ]),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: "vendor",
+            minChunks: Infinity,
+          })
     ],
     stats: {
         colors: true
