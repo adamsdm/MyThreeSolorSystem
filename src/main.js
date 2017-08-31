@@ -1,4 +1,4 @@
-import * as THREE from "three"
+var Three = require("three");
 var OrbitControls = require('three-orbit-controls')(THREE)
 
 // Create an empty scene
@@ -66,9 +66,9 @@ var cloudMesh = new THREE.Mesh( cloudsGeo, material );
 earthMesh.add(cloudMesh);
 scene.add( earthMesh );
 
-
 // Render Loop
 var render = function () {
+  
   requestAnimationFrame( render );  
   sun.rotation.y += 0.01;
   earthMesh.rotation.y += 0.001;
