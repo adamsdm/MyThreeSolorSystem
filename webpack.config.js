@@ -1,3 +1,5 @@
+var CopyWebpackPlugin = require('copy-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 var webpack = require('webpack');
 
@@ -7,21 +9,32 @@ module.exports = {
         path: path.resolve(__dirname, 'build'),
         filename: 'main.bundle.js'
     },
-    devServer: { inline: true },
     module: {
         loaders: [
             {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
                 loader: 'babel-loader',
-                query: {
-                    presets: ['es2015', 'stage-0']
-                }
-            }
+            },
+            {
+                test: /\.(png|jpg|jpeg|gif|svg)$/,
+                loader: "url-loader?prefix=img/&limit=25000",
+              }
         ]
     },
+    plugins: [
+        new webpack.NoEmitOnErrorsPlugin(),
+        new HtmlWebpackPlugin({
+            template: "./index.html",
+            hash: true,
+            inject: "body",
+        }),
+        new CopyWebpackPlugin([
+            { from: 'src/assets', to: 'assets' }
+        ]),
+    ],
     stats: {
         colors: true
     },
-    devtool: 'source-map'
+    devtool: 'inline-source-map'
 };
